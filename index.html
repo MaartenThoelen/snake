@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Snake</title>
+		<link rel="stylesheet" type="text/css" href="stylesheet.css">
+		<style>			
+			#gamecontainer {
+				width: 800px;
+				margin-left: auto;
+				margin-right: auto;
+			}
+			#gamecanvas { 
+				width: 800px;
+				height: 600px;
+			}
+		</style>
+	</head>
+<body>
+	<div id="gamecontainer">
+	<canvas id="gameCanvas"></canvas>
+	</div>
+	<script src="snake.js"></script>
+	<script>
+		var canvas = document.getElementById("gameCanvas");
+		canvas.width = 800;
+		canvas.height = 600;
+
+		var game = new Game();
+		game.initialise(canvas);
+		game.start();
+
+		var pressedKeys = [];
+		window.addEventListener("keydown", function keydown(e) {
+			var keycode = window.event.keycode || e.which;
+		    if(!pressedKeys[keycode])
+		    	pressedKeys[keycode] = true;
+		    //	Supress further processing of left/right/up/down/space (37/38/39/40/32)
+		    if(keycode == 37 || keycode == 38 || keycode == 39|| keycode == 40 || keycode == 32) {
+		    	e.preventDefault();
+		    }
+		    game.keyDown(keycode);
+		});
+		window.addEventListener("keyup", function keydown(e) {
+			var keycode = window.event.keycode || e.which;
+		    if(pressedKeys[keycode])
+		    	delete pressedKeys[keycode];
+		    game.keyUp(keycode);
+		});
+	</script>
+</body>
+</html>
